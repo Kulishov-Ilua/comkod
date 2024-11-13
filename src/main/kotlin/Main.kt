@@ -3,7 +3,7 @@
 //#####################        COMKOD - утилита для документации кода        #######################
 //##################################################################################################
 //####  Author:Kulishov I.V.                         ###############################################
-//####  Version:0.0.1                                ###############################################
+//####  Version:0.1.0                                ###############################################
 //####  Date:01.10.2024                              ###############################################
 //##################################################################################################
 //##################################################################################################
@@ -16,6 +16,7 @@ import java.awt.datatransfer.StringSelection
 import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
+import java.io.PrintStream
 import java.text.Format
 import java.time.LocalDate
 import java.time.LocalTime
@@ -30,7 +31,13 @@ var lang = "kotlin"
 
 
 fun main() {
-    System.setProperty("file.encoding", "UTF-8")
+    try {
+        val process = ProcessBuilder("cmd", "/c", "chcp 65001").inheritIO().start()
+        process.waitFor()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
     var appFlag = true
     val logo =  "\n     ██████╗ ██████╗ ███╗   ███╗██╗  ██╗ ██████╗ ██████╗ \n    ██╔════╝██╔═══██╗████╗ ████║██║ ██╔╝██╔═══██╗██╔══██╗\n    ██║     ██║   ██║██╔████╔██║█████╔╝ ██║   ██║██║  ██║\n    ██║     ██║   ██║██║╚██╔╝██║██╔═██╗ ██║   ██║██║  ██║\n    ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║  ██╗╚██████╔╝██████╔╝\n     ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝\n"
     println(logo)
@@ -339,7 +346,7 @@ fun main() {
                 var firstFlag=0
                 for(x in inputDataList){
                     if(firstFlag!=0) output+=","
-                    output+="val ${x.name}:${x.type}"
+                    output+="${x.name}:${x.type}"
 
                     firstFlag++
                 }
